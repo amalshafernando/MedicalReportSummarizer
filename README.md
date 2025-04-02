@@ -14,5 +14,5 @@ A web-based tool to extract text from medical/healthcare PDF reports and generat
 - **Compliance Ready:** Designed with HIPAA/GDPR in mind (anonymization can be added).
 
 
-![Upload PDF](screenshots/ui 1.png)
-![Extract and summarize data](screenshots/ui 2.png)
+![Upload PDF](https://github.com/amalshafernando/MedicalReportSummarizer/blob/main/screenshots/ui%201.png)
+![Extract and summarize data](https://github.com/amalshafernando/MedicalReportSummarizer/blob/main/screenshots/ui%202.png)

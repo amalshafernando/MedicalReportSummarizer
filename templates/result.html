@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Extracted Text</title>
+    <title>Medical Report Summary</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -15,16 +15,23 @@
             font-family: monospace; /* Keep formatting */
         }
         pre {
-            white-space: pre-wrap; /* Ensures text wraps */
-            word-wrap: break-word; /* Breaks long words */
-            margin: 0; /* Remove extra spacing */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+        }
+        #summarySection {
+            display: none; /* Hidden until summary is generated */
+        }
+        .spinner {
+            display: none; /* Hidden until summarization starts */
         }
     </style>
 </head>
 <body>
     <div class="container mt-4">
-        <h1 class="text-center">Extracted Text</h1>
-        
+        <h1 class="text-center">Medical Report Details</h1>
+
+        <!-- Extracted Text Sections -->
         {% for section, content in structured_text.items() %}
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -33,29 +40,75 @@
                         <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#section{{ loop.index }}">
                             <strong>{{ section }}</strong>
                         </button>
-                    <!--
-                        <button class="btn btn-outline-secondary btn-sm copy-btn" data-target="content{{ loop.index }}">
-                            <i class="bi bi-clipboard"></i>
-                        </button> -->    
                     </div>
                     <div id="section{{ loop.index }}" class="collapse show">
                         <div class="card-body">
-                            <pre>{{ content }}</pre> 
+                            <pre>{{ content }}</pre>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         {% endfor %}
-        
-        <div class="text-center">
-            <a href="/" class="btn btn-primary mt-3">Upload Another File</a>
-            <a href="/action" class="btn btn-success mt-3">Summarize</a>
+
+        <!-- Summary Section -->
+        <div class="row justify-content-center mt-4" id="summarySection">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Summary</strong>
+                    </div>
+                    <div class="card-body">
+                        <pre id="summaryText">{{ summarized_text['Summary'] if summarized_text else '' }}</pre>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!-- Buttons -->
+        <div class="text-center mt-4">
+            <button id="summarizeBtn" class="btn btn-success">Summarize</button>
+            <a href="/" class="btn btn-primary">Upload Another File</a>
+            <div class="spinner mt-3">
+                <div class="spinner-border text-success" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span> Summarizing...</span>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('summarizeBtn').addEventListener('click', function() {
+            // Show spinner and hide button during summarization
+            document.querySelector('.spinner').style.display = 'block';
+            this.disabled = true;
+
+            // Send AJAX request to summarize
+            fetch('/summarize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ structured_text: {{ structured_text | tojson }} })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide spinner and show summary
+                document.querySelector('.spinner').style.display = 'none';
+                this.disabled = false;
+                document.getElementById('summaryText').textContent = data.summary;
+                document.getElementById('summarySection').style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.querySelector('.spinner').style.display = 'none';
+                this.disabled = false;
+                alert('Failed to generate summary. Please try again.');
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import os
 from extract_text import extract_text_from_pdf, preprocess_text
+from summarize_text import summarize_text
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
@@ -22,9 +23,16 @@ def upload_file():
             raw_text = extract_text_from_pdf(filepath)
             structured_text = preprocess_text(raw_text)
             
-            return render_template('result.html', structured_text=structured_text)
+            return render_template('result.html', structured_text=structured_text, summarized_text=None)
     
     return render_template('index.html')
+
+@app.route('/summarize', methods=['POST'])
+def summarize():
+    data = request.get_json()
+    structured_text = data.get('structured_text', {})
+    summarized_text = summarize_text(structured_text)
+    return jsonify({'summary': summarized_text['Summary']})
 
 if __name__ == '__main__':
     app.run(debug=True)

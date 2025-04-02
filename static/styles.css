@@ -23,3 +23,67 @@
     max-height: 300px;           /* Fixed height */
     overflow-y: auto;            /* Scrolls if content overflows */
 }
+
+
+body {
+    background-color: #f8f9fa; /* Light background for contrast */
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: #007bff; /* Blue header for contrast */
+    color: white;
+    padding: 10px 15px;
+}
+
+.btn-link {
+    text-decoration: none;
+    color: white;
+    font-size: 1.1rem;
+    width: 100%;
+    text-align: left;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+.card-body {
+    padding: 15px;
+    max-height: 250px; /* Increased for better visibility */
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+}
+
+#summarySection {
+    display: none;
+}
+
+.spinner {
+    display: none;
+    text-align: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+button.btn {
+    min-width: 160px;
+}

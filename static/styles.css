@@ -1,0 +1,25 @@
+.card {
+    border: 1px solid #ccc;      /* Light border around card */
+    border-radius: 5px;          /* Rounded corners */
+    padding: 15px;               /* Inner spacing */
+    margin-bottom: 20px;         /* Space between cards */
+    max-width: 100%;             /* Fits screen */
+    background-color: #f9f9f9;   /* Light background */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
+}
+
+.card-title {
+    font-size: 1.2em;            /* Slightly larger title */
+    font-weight: bold;           /* Bold title */
+    margin-bottom: 10px;         /* Space below title */
+    color: #333;                 /* Darker text */
+}
+
+.card-content {
+    white-space: pre-wrap;       /* Wraps text */
+    word-wrap: break-word;       /* Breaks long words */
+    font-family: monospace;      /* Readable font */
+    color: #555;                 /* Softer text color */
+    max-height: 300px;           /* Fixed height */
+    overflow-y: auto;            /* Scrolls if content overflows */
+}
